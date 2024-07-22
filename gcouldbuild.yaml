@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      'europe-north1-docker.pkg.dev/abz-agency-nodejs-task/users/production',
+      '-f',
+      'apps/users/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'europe-north1-docker.pkg.dev/abz-agency-nodejs-task/users/production',
+    ]

@@ -16,4 +16,4 @@ steps:
     ]
 options:
   logging: 'NONE'
-region: 'us-central1'
+

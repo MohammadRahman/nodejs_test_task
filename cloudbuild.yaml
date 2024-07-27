@@ -8,8 +8,11 @@ steps:
       'apps/users/Dockerfile',
       '.'
     ]
+
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
       'europe-north1-docker.pkg.dev/abz-agency-nodejs-task/users/production',
     ]
+options:
+  logging: 'NONE'

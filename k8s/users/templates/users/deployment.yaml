@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users
+  name: users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - image: europe-north1-docker.pkg.dev/abz-agency-nodejs-task/users/production
+        name: users
+        env:
+          - name: PORT
+            value: '3000'
+          - name: MONGO_URI
+            valueFrom: 
+              secretKeyRef:
+                name: mongodb
+                key: connectionUri
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: awsAccessKeyId
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: awsSecretKey
+          - name: AWS_S3_REGION
+            valueFrom:
+              secretKeyRef:
+                name: google2
+                key: awsRegion
+        ports:
+          - containerPort: 3000

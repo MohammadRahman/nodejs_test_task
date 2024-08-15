@@ -4,7 +4,12 @@ import { AppService } from './app.service';
 import { HelperModule } from '@app/common/helper/helper.module';
 import { HelperService } from '@app/common/helper/helper.service';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseModule, UploadModule, UploadsService } from '@app/common';
+import {
+  DatabaseModule,
+  HealthModule,
+  UploadModule,
+  UploadsService,
+} from '@app/common';
 import { User } from './models/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
@@ -14,6 +19,7 @@ import { UserRepository } from './user.repository';
   imports: [
     HelperModule,
     DatabaseModule,
+    HealthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({

@@ -15,6 +15,7 @@ import {
 import { AppService } from './app.service';
 // import { CreateUserDto } from './dto/user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateUserDto } from './dto/user.dto';
 
 @Controller('/v1')
 export class AppController {
@@ -38,7 +39,7 @@ export class AppController {
   @Post('/users')
   async postUser(
     @Req() req: Request,
-    @Body() createUserDto: any,
+    @Body() createUserDto: CreateUserDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [

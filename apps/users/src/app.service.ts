@@ -45,11 +45,14 @@ export class AppService {
         key,
         optimizedImage,
       );
-      const user = new User({ ...createUserDto, photo: imageUrl });
+      const user = new User({
+        ...createUserDto,
+        photo: imageUrl,
+      });
       const newUser = await this.userRepository.create(user);
       return {
         success: true,
-        user_id: newUser.id,
+        user_id: newUser._id,
         message: 'New user successfully registered',
       };
     }

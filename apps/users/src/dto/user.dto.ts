@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { IsPhoneNumber } from '@app/common';
 
 export class CreateUserDto {
@@ -15,7 +15,5 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   position_id: string;
-  @IsNotEmpty()
-  @IsString()
   photo: File;
 }

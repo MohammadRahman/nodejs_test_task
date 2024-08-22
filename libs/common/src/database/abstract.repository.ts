@@ -51,10 +51,13 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     return this.findOne(where);
   }
 
-  async find(where: FindOptionsWhere<T>) {
-    return this.itemsRepository.findBy(where);
+  // async find(where: FindOptionsWhere<T>) {
+  //   return this.itemsRepository.findBy(where);
+  // }
+  async find(where: FindOptionsWhere<T> = {}): Promise<T[]> {
+    // Use the MongoRepository's find method directly, which is compatible with MongoDB.
+    return await this.itemsRepository.find({ where });
   }
-
   async findOneAndDelete(where: FindOptionsWhere<T>) {
     await this.itemsRepository.delete(where);
   }

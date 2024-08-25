@@ -4,4 +4,5 @@ metadata:
   name: managed-cert
 spec:
   domains:
+    - aprikt.online
     - www.aprikt.online

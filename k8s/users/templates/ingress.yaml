@@ -5,7 +5,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
-    networking.gke.io/managed-certificates: "cert" # Ensure this matches your certificate name
+    # networking.gke.io/managed-certificates: "cert" # Ensure this matches your certificate name
+    networking.gke.io/managed-certificates: managed-cert
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
     - host: aprikt.online

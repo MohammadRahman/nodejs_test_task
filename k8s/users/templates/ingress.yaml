@@ -5,12 +5,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
-    networking.gke.io/managed-certificates: "cert" # Replace with your actual certificate name
+    networking.gke.io/managed-certificates: "cert" # Ensure this matches your certificate name
 spec:
-  tls:
-    - hosts:
-        - aprikt.online
-      secretName: cert # This should match the certificate you created
   rules:
     - host: aprikt.online
       http:

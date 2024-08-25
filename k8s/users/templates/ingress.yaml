@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: users
   annotations:
-    kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
     # networking.gke.io/managed-certificates: "cert" # Ensure this matches your certificate name
     networking.gke.io/managed-certificates: managed-cert

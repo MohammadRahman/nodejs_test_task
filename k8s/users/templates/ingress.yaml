@@ -3,17 +3,59 @@ kind: Ingress
 metadata:
   name: users
   annotations:
+    kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
-    kubernetes.io/ingress.class: alb
+    networking.gke.io/managed-certificates: "cert" # Replace with your actual certificate name
 spec:
+  tls:
+    - hosts:
+        - aprikt.online
+      secretName: cert # This should match the certificate you created
   rules:
-    - host: test-task.com  # Replace with your actual domain
+    - host: aprikt.online
       http:
         paths:
           - path: /v1/*
-            pathType: ImplementationSpecific  
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: users
                 port:
                   number: 3000
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: users
+#   annotations:
+#     kubernetes.io/ingress.class: "alb"
+#     alb.ingress.kubernetes.io/scheme: internet-facing
+#     networking.gke.io/managed-certificates: "cert"
+# spec:
+#   rules:
+#     - host: aprikt.online
+#       http:
+#         paths:
+#           - path: /v1/*
+#             pathType: ImplementationSpecific
+#             backend:
+#               service:
+#                 name: users
+#                 port:
+#                   number: 3000
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: users
+# spec:
+#   rules:
+#     - http:
+#         paths:
+#           - path: /v1/*
+#             pathType: ImplementationSpecific
+#             backend:
+#               service:
+#                 name: users
+#                 port:
+#                   number: 3000

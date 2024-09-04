@@ -50,15 +50,6 @@ export class AppController {
     )
     file: Express.Multer.File,
   ) {
-    // if (!file) {
-    //   return {
-    //     success: false,
-    //     message: 'No file uploaded',
-    //   };
-    // }
-    console.log('file in controller', file);
-    console.log('dto', createUserDto);
-    console.log('headers', req.headers);
     return await this.appService.postUser(req, createUserDto, file);
   }
   @Get('/token')

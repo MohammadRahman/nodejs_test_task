@@ -33,33 +33,54 @@ export class AppService {
     }
     token = token.split(' ')[1];
     console.log('token form ui', token);
-    const isTokenAlreadyUsed = this.heperService.storeTokenInMemory(token);
-    const isValidToken = await this.heperService.validateJwtToken(token);
-    if (isValidToken) {
-      if (isTokenAlreadyUsed) {
-        return { success: false, message: 'token already used' };
-      }
-      const optimizedImage = await this.optimizeImage(file);
-      const key = `${file.fieldname}${Date.now()}`;
-      const imageUrl = await this.uploadService.uploadImage(
-        key,
-        optimizedImage,
-      );
-      const user = new User({
-        ...createUserDto,
-        photo: imageUrl,
-      });
-      const newUser = await this.userRepository.create(user);
-      return {
-        success: true,
-        user_id: newUser._id,
-        message: 'New user successfully registered',
-      };
-    }
+
+    const [isValidToken, isTokenAlreadyUsed] = await Promise.all([
+      this.heperService.validateJwtToken(token),
+      this.heperService.storeTokenInMemory(token),
+    ]);
+    if (!isValidToken) return { success: false, message: 'invalid token' };
+    if (isTokenAlreadyUsed)
+      return { success: false, message: 'token already used' };
+    // Optimize image and upload in parallel
+    const optimizedImagePromise = this.optimizeImage(file);
+    const key = `${file.fieldname}${Date.now()}`;
+    const optimizedImage = await optimizedImagePromise;
+
+    const imageUrl = await this.uploadService.uploadImage(key, optimizedImage);
+
+    const user = new User({ ...createUserDto, photo: imageUrl });
+    const newUser = await this.userRepository.create(user);
+
     return {
-      success: false,
-      message: 'invalid token',
+      success: true,
+      user_id: newUser._id,
+      message: 'New user successfully registered',
     };
+    // if (isValidToken) {
+    //   if (isTokenAlreadyUsed) {
+    //     return { success: false, message: 'token already used' };
+    //   }
+    //   const optimizedImage = await this.optimizeImage(file);
+    //   const key = `${file.fieldname}${Date.now()}`;
+    //   const imageUrl = await this.uploadService.uploadImage(
+    //     key,
+    //     optimizedImage,
+    //   );
+    //   const user = new User({
+    //     ...createUserDto,
+    //     photo: imageUrl,
+    //   });
+    //   const newUser = await this.userRepository.create(user);
+    //   return {
+    //     success: true,
+    //     user_id: newUser._id,
+    //     message: 'New user successfully registered',
+    //   };
+    // }
+    // return {
+    //   success: false,
+    //   message: 'invalid token',
+    // };
   }
   async getToken() {
     const payload = 'token';
@@ -67,6 +88,7 @@ export class AppService {
       { payload },
       { secret: '123456', expiresIn: '40m' },
     );
+    console.log(token);
     return {
       success: true,
       message: 'new token created',
